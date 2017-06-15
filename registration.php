@@ -24,13 +24,18 @@ require_once('header.php');
             </fieldset>
             <fieldset class="form-group">
                 <label for="password" class="col-sm-2">Password: </label>
-                <input name="password" id="password" type="password" placeholder="Password"/>
+                <input name="password" id="password" type="password" placeholder="Password"
+                    required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autofocus
+                       title="Passwords must contain uppercase, lowercase, numbers and be at least 8 characters"/>
+                <span id="result"></span>
             </fieldset>
             <fieldset class="form-group">
                 <label for="confirm" class="col-sm-2">Re-enter Password: </label>
-                <input name="confirm" id="confirm" type="password" placeholder="Confirm Password"/>
+                <input name="confirm" id="confirm" type="password" placeholder="Confirm Password"
+                       required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autofocus
+                       title="Passwords must contain uppercase, lowercase and numbers"/>
             </fieldset>
-            <button class="btn btn-success col-sm-offset-2">Register</button>
+            <button class="btn btn-success col-sm-offset-2 btnRegister">Register</button>
         </form>
     </main>
 </body>
