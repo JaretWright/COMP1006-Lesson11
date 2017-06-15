@@ -25,14 +25,17 @@
         if (empty($_SESSION['email']))
         {
             echo '<li><a href="registration.php">Register</a></li>
-                  <li><a href="login.php">Login</a></li>';
+                  <li><a href="login.php">Login</a></li></ul>';
         }
 
         //private / logged in links
         else
         {
             echo '<li><a href="AlbumDetails.php">Add new album</a></li>
-                  <li><a href="logout.php">Logout</a></li>';
+                  <li><a href="logout.php">Logout</a></li></ul>';
+
+            //add the user name to the navigation bar
+            echo '<li><div class="navbar-text pull-right">' . $_SESSION['userName'] . '</div></li>';
         }
         ?>
     </ul>
