@@ -6,21 +6,61 @@ require_once('header.php');
 <main class="container">
     <h1>Albums</h1>
 
+    <?php
+        if (!empty($_GET['searchTerms']))
+            $searchTerms = $_GET['searchTerms'];
+        else
+            $searchTerms = null;
+    ?>
+
     <form action="albums.php" class="formSpace form-inline">
         <div class="form-group">
-            <input class="form-control" name="searchTerms" id="searchTerms" />
+            <input class="form-control" name="searchTerms" id="searchTerms"
+                value="<?php echo $searchTerms ?>"/>
         </div>
         <button class="btn btn-default">Search</button>
     </form>
     <br />
+
+    <!-- load the albums that match our search terms or all if no search terms are provided-->
     <?php
 
+        //convert the string into array
+        if (!empty($searchTerms))
+            $searchTerms = explode(" ", $searchTerms);
 
         //step 1 - connect to the database
         require_once('db.php');
 
-        //step 2 - create a SQL command
-        $sql = "SELECT * FROM albums";
+        //step 2 - decide which SQL command to run
+        if (empty($searchTerms)) {
+            $sql = "SELECT * FROM albums";
+            $sqlSearchTerms = null;
+        }
+        else
+        {
+            $sql = "SELECT * FROM albums WHERE";
+            $wordCounter = 0;
+
+            foreach ($searchTerms as $searchTerm)
+            {
+                $sql .= " artist LIKE ? OR title LIKE ? OR genre LIKE ?";
+                $searchTerms[$wordCounter] = "%".$searchTerm."%";
+                $wordCounter++;
+
+                if ($wordCounter < sizeof($searchTerms))
+                    $sql .= " OR ";
+            }
+        }
+
+        //duplicate the search terms so that at run time, there are
+        //enough tokens for the ?'s in the sql statement
+        $sqlSearchTerms = array();
+        foreach ($searchTerms as $searchTerm){
+            $sqlSearchTerms[] = $searchTerm;
+            $sqlSearchTerms[] = $searchTerm;
+            $sqlSearchTerms[] = $searchTerm;
+        }
 
         //step 3 - prepare the SQL command
         $cmd = $conn->prepare($sql);
