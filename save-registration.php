@@ -39,7 +39,7 @@
         //Step 1 - connect to the DB
         require_once ('db.php');
         //Step 2 - create the SQL command
-        $sql = "INSERT INTO users VALUES (:email, :username, :password)";
+        $sql = "INSERT INTO users (email, password) VALUES (:email, :username, :password)";
 
         //Step 2.5 - hash the password
         $password = password_hash($password, PASSWORD_DEFAULT);
@@ -55,9 +55,21 @@
         }
         catch (Exception $e)
         {
+            $conn=null;
             if (strpos($e->getMessage(),
                      'Integrity constraint violation: 1062') == true){
                 header('location:registration.php?errorMessage=email-already-exists');
+                exit();
+            }
+            else
+            {
+                $to = 'jaret.wright@georgiancollege.ca';
+                $subject = 'error on registration page';
+                $message = 'email: '.$email.' username: '.$userName.' password: '.$password
+                            .' Exception: '.$e->getMessage();
+                mail($to, $subject, $message);
+                header('location:error.php');
+                exit();
             }
         }
 

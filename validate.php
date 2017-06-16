@@ -1,7 +1,6 @@
 <?php
-
-$email = $_POST['email'];
-$password = $_POST['password'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
 //Step 1 - connect to the DB
 require_once ('db.php');

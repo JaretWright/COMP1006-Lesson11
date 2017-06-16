@@ -30,7 +30,6 @@ require_once('header.php');
         <fieldset class="form-group col-sm-offset-1">
             <button class="btn btn-success">Login</button>
         </fieldset>
-
     </form>
 
     <p><a href="forgotPassword.php">Forgot my password</a></p>

@@ -5,7 +5,16 @@ require_once('header.php');
 
 <main class="container">
     <h1>Albums</h1>
+
+    <form action="albums.php">
+        <div>
+            <input name="searchTerms" id="searchTerms" />
+        </div>
+        <button>Search</button>
+    </form>
+
     <?php
+
 
         //step 1 - connect to the database
         require_once('db.php');
