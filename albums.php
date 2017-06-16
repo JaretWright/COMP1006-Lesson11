@@ -37,36 +37,35 @@ require_once('header.php');
             $sql = "SELECT * FROM albums";
             $sqlSearchTerms = null;
         }
-        else
-        {
+        else {
             $sql = "SELECT * FROM albums WHERE";
             $wordCounter = 0;
 
-            foreach ($searchTerms as $searchTerm)
-            {
+            foreach ($searchTerms as $searchTerm) {
                 $sql .= " artist LIKE ? OR title LIKE ? OR genre LIKE ?";
-                $searchTerms[$wordCounter] = "%".$searchTerm."%";
+                $searchTerms[$wordCounter] = "%" . $searchTerm . "%";
                 $wordCounter++;
 
                 if ($wordCounter < sizeof($searchTerms))
                     $sql .= " OR ";
             }
-        }
 
-        //duplicate the search terms so that at run time, there are
-        //enough tokens for the ?'s in the sql statement
-        $sqlSearchTerms = array();
-        foreach ($searchTerms as $searchTerm){
-            $sqlSearchTerms[] = $searchTerm;
-            $sqlSearchTerms[] = $searchTerm;
-            $sqlSearchTerms[] = $searchTerm;
+
+            //duplicate the search terms so that at run time, there are
+            //enough tokens for the ?'s in the sql statement
+            $sqlSearchTerms = array();
+            foreach ($searchTerms as $searchTerm) {
+                $sqlSearchTerms[] = $searchTerm;
+                $sqlSearchTerms[] = $searchTerm;
+                $sqlSearchTerms[] = $searchTerm;
+            }
         }
 
         //step 3 - prepare the SQL command
         $cmd = $conn->prepare($sql);
 
         //step 4 - execute and store the results
-        $cmd->execute();
+        $cmd->execute($sqlSearchTerms);
         $albums = $cmd->fetchAll();
 
         //step 5 - disconnect from the DB
