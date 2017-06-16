@@ -6,13 +6,13 @@ require_once('header.php');
 <main class="container">
     <h1>Albums</h1>
 
-    <form action="albums.php">
-        <div>
-            <input name="searchTerms" id="searchTerms" />
+    <form action="albums.php" class="formSpace form-inline">
+        <div class="form-group">
+            <input class="form-control" name="searchTerms" id="searchTerms" />
         </div>
-        <button>Search</button>
+        <button class="btn btn-default">Search</button>
     </form>
-
+    <br />
     <?php
 
 
